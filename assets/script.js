@@ -112,3 +112,77 @@ var biggest_loss;
 
 var analysis;
 var count = 0;
+
+for (let i = 0; i < no_months; i++) {
+
+   
+    var money_value = finances[i][1];
+
+    
+
+    if (count === 1) {
+        diff_value = money_value - last_month;
+        monthly_diff.push(diff_value);
+
+        biggest_profit_value = diff_value;
+        biggest_loss_value = diff_value;
+    }
+    else if (count > 1) {
+
+        diff_value = money_value - last_month;
+        monthly_diff.push(diff_value);
+
+    
+        if (diff_value > biggest_profit_value) {
+
+            biggest_profit_value = diff_value;
+            biggest_profit_count = count;
+        }
+        
+        else if (diff_value < biggest_loss_value) {
+
+            biggest_loss_value = diff_value;
+            biggest_loss_count = count;
+        }
+    }
+
+
+    if (money_value > 0) {
+        profit = profit + money_value;
+    }
+    else if (money_value < 0) {
+        losses = losses + money_value;
+    }
+
+    
+    last_month = money_value;
+
+    count++;
+
+}
+
+
+for (let k = 0; k < monthly_diff.length; k++) {
+    monthly_diff_sum = monthly_diff_sum + monthly_diff[k];
+}
+
+total = profit + losses;
+
+av_change = (monthly_diff_sum / monthly_diff.length).toFixed(2);
+
+biggest_profit = finances[biggest_profit_count];
+biggest_loss = finances[biggest_loss_count];
+
+
+
+analysis = 'Financial Analysis' + '\n'
+    + '----------------------' + '\n'
+    + 'Total Months: ' + no_months + '\n'
+    + 'Total: £' + total + '\n'
+    + 'Average Change: -£' + (av_change * -1) + '\n'
+    + 'Greatest Increase: ' + biggest_profit[0] + ' - there was an increase of: £' + biggest_profit_value + '\n'
+    + 'Greatest Decrease: ' + biggest_loss[0]  + ' - there was a decrease of: -£' + (biggest_loss_value*-1)
+    ;
+
+
+console.log(analysis);
